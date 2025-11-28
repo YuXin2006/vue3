@@ -10,7 +10,9 @@ export default {
   
   data() {
     return {
-      message: '等待 BaseButton 的点击事件报告...'
+      message: '等待 BaseButton 的点击事件报告...',
+      IsLoggedIn:true,
+      isvisible:true
     }
   },
   methods: {
@@ -40,6 +42,36 @@ export default {
     </div>
 
     <hr style="margin: 20px 0; border-color: #eee;">
+    <!--条件渲染演示-->
+    <div style="border: 1px solid #42b883; padding: 10px; margin-bottom: 15px;">
+        <h4 style="margin-top:0;">v-if/v-else 演示 (DOM 销毁)</h4>
+        
+        <p v-if="isLoggedIn" style="color: green;">
+          欢迎回来，用户！(v-if 渲染)
+        </p>
+        
+        <p v-else style="color: red;">
+          请先登录。(v-else 渲染)
+        </p>
+        
+        <button @click="isLoggedIn = !isLoggedIn">
+          切换 v-if 状态 (当前: {{ isLoggedIn ? '已登录' : '未登录' }})
+        </button>
+      </div>
+      
+      <div style="border: 1px solid #35495e; padding: 10px;">
+        <h4 style="margin-top:0;">v-show 演示 (CSS display 切换)</h4>
+        
+        <p v-show="isVisible" style="color: blue;">
+          v-show 元素可见。(检查开发者工具，它仍在 DOM 中)
+        </p>
+        
+        <button @click="isVisible = !isVisible">
+          切换 v-show 状态 (当前: {{ isVisible ? '可见' : '隐藏' }})
+        </button>
+      </div>
+
+
     
     <div style="padding: 15px; background: #f9f9f9; border-radius: 4px;">
       <h2>二、全局 API 演示组件 (Application API)</h2>
