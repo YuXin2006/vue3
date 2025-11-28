@@ -12,9 +12,13 @@ export default {
     return {
       message: '等待 BaseButton 的点击事件报告...',
       IsLoggedIn:true,
-      isvisible:true
-    }
-  },
+      isvisible:true,
+      shoppingList:[
+        { id: 101, name: '牛奶', done: false },
+        { id: 102, name: '鸡蛋', done: true },
+        { id: 103, name: '面包', done: false },
+        { id: 104, name: '咖啡豆', done: false },]
+    }},
   methods: {
     // 接收子组件发出的事件，并执行响应逻辑
     handleButtonClickReport(payload) {
@@ -40,7 +44,26 @@ export default {
         @button-clicked="handleButtonClickReport"
       />
     </div>
+    <!--列表渲染-->
+    <div style="padding: 15px; background: #fffbe6; border-radius: 4px; margin-bottom: 30px;">
+      <h2>三、列表渲染演示 (v-for)</h2>
+      <h4 style="margin-top:0;">购物清单 (共 {{ shoppingList.length }} 项)</h4>
 
+      <ul style="list-style: none; padding: 0;">
+        <li 
+          v-for="(item, index) in shoppingList" 
+          :key="item.id" 
+          :style="{
+            textDecoration: item.done ? 'line-through' : 'none',
+            color: item.done ? '#888' : '#333',
+            marginBottom: '5px'
+          }"
+        >
+          [{{ index + 1 }}] **{{ item.name }}** - ID: {{ item.id }}
+        </li>
+      </ul>
+    </div>
+    
     <hr style="margin: 20px 0; border-color: #eee;">
     <!--条件渲染演示-->
     <div style="border: 1px solid #42b883; padding: 10px; margin-bottom: 15px;">
@@ -54,8 +77,8 @@ export default {
           请先登录。(v-else 渲染)
         </p>
         
-        <button @click="isLoggedIn = !isLoggedIn">
-          切换 v-if 状态 (当前: {{ isLoggedIn ? '已登录' : '未登录' }})
+        <button @click="IsLoggedIn = !IsLoggedIn">
+          切换 v-if 状态 (当前: {{ IsLoggedIn ? '已登录' : '未登录' }})
         </button>
       </div>
       
