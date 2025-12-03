@@ -26,6 +26,9 @@ export default {
       // 模块五：v-model 的数据
       searchQuery: '',        // 绑定到文本输入框
       isSubscribed: false,    // 绑定到复选框
+      lazyInput: '',         // 绑定到 .lazy 演示
+      numberInput: 0,        // 绑定到 .number 演示
+      trimInput: '   ',      // 绑定到 .trim 演示 (注意初始值带空格)
     }
   },
   
@@ -86,27 +89,21 @@ export default {
     <!--条件渲染演示-->
     <div style="border: 1px solid #42b883; padding: 10px; margin-bottom: 15px;">
         <h4 style="margin-top:0;">v-if/v-else 演示 (DOM 销毁)</h4>
-        
         <p v-if="isLoggedIn" style="color: green;">
           欢迎回来，用户！(v-if 渲染)
         </p>
-        
         <p v-else style="color: red;">
           请先登录。(v-else 渲染)
         </p>
-        
         <button @click="IsLoggedIn = !IsLoggedIn">
           切换 v-if 状态 (当前: {{ IsLoggedIn ? '已登录' : '未登录' }})
         </button>
       </div>
-      
       <div style="border: 1px solid #35495e; padding: 10px;">
         <h4 style="margin-top:0;">v-show 演示 (CSS display 切换)</h4>
-        
         <p v-show="isVisible" style="color: blue;">
           v-show 元素可见。(检查开发者工具，它仍在 DOM 中)
         </p>
-        
         <button @click="isVisible = !isVisible">
           切换 v-show 状态 (当前: {{ isVisible ? '可见' : '隐藏' }})
         </button>
@@ -136,7 +133,62 @@ export default {
           点击我 (.stop 阻止冒泡)
         </button>
       </div>
+    </div>
 
+
+    <hr style="margin: 20px 0; border-color: #eee;">
+    <div style="padding: 15px; background: #e6f7ff; border-radius: 4px; margin-bottom: 30px;">
+      <h2>五、表单输入绑定 (v-model)</h2>
+      <div style="margin-bottom: 15px;">
+        <h4>文本输入绑定:</h4>
+        <input 
+          v-model="searchQuery" 
+          placeholder="输入内容，观察下方实时变化" 
+          style="padding: 8px; border: 1px solid #ccc; width: 100%; box-sizing: border-box;"
+        />
+        <p style="margin-top: 5px;">
+          **数据实时状态 (searchQuery):** <code>{{ searchQuery }}</code>
+        </p>
+      </div>
+      <div>
+        <h4>复选框绑定:</h4>
+        <input 
+          type="checkbox" 
+          id="subscribe" 
+          v-model="isSubscribed"
+        >
+        <label for="subscribe">7天记住我登陆</label>
+        <p style="margin-top: 5px;">
+          **数据实时状态 (isSubscribed):** <code>{{ isSubscribed }}</code>
+        </p>
+      </div>
+    </div>
+
+
+    <hr style="margin: 20px 0; border-color: #eee;">
+    <div style="padding: 15px; background: #fdf5e6; border-radius: 4px; margin-bottom: 30px;">
+      <h2>六、v-model 修饰符演示 (.lazy, .number, .trim)</h2>
+
+      <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #f0ad4e;">
+        <h4>v-model.lazy (失焦才更新)</h4>
+        <input v-model.lazy="lazyInput" placeholder="输入并观察">
+        <p>数据状态：<code>{{ lazyInput }}</code></p>
+        <p style="color: #f0ad4e;">**提示：** 只有当你**点击输入框外部**或**按回车**时，上方数据才会同步。</p>
+      </div>
+
+      <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #5bc0de;">
+        <h4>v-model.number (转为数字类型)</h4>
+        <input v-model.number="numberInput" type="number" placeholder="输入一个数字">
+        <p>数据状态：<code>{{ numberInput }}</code></p>
+        <p>数据类型：<code style="color: blue;">{{ typeof numberInput }}</code></p>
+      </div>
+
+      <div style="padding: 10px; border: 1px solid #5cb85c;">
+        <h4>v-model.trim (去除首尾空格)</h4>
+        <input v-model.trim="trimInput" placeholder="输入时前后加空格">
+        <p>数据状态：<code>{{ JSON.stringify(trimInput) }}</code></p>
+        <p style="color: green;">**提示：** 尝试输入 **[空格]test[空格]**，数据中不会包含空格。</p>
+      </div>
     </div>
   </main>
 </template>
