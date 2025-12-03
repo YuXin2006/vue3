@@ -2,38 +2,49 @@
 // 使用 Options API 结构来保持和你的代码风格一致
 
 import GlobalApiDemo from './components/GlobalApiDemo.vue'
-// BaseButton 已经在 main.js 中全局注册，无需再次导入
 
 export default {
-  // 注册组件
   components: { GlobalApiDemo },
   
   data() {
     return {
+      // 模块一：组件通信的数据
       message: '等待 BaseButton 的点击事件报告...',
-      IsLoggedIn:true,
-      isvisible:true,
-      shoppingList:[
+      
+      // 模块二：条件渲染的数据
+      isLoggedIn: true,    
+      isVisible: true,
+
+      // 模块三：列表渲染的数据
+      shoppingList: [
         { id: 101, name: '牛奶', done: false },
         { id: 102, name: '鸡蛋', done: true },
         { id: 103, name: '面包', done: false },
-        { id: 104, name: '咖啡豆', done: false },]
-    }},
+        { id: 104, name: '咖啡豆', done: false },
+      ],
+      
+      // 模块五：v-model 的数据
+      searchQuery: '',        // 绑定到文本输入框
+      isSubscribed: false,    // 绑定到复选框
+    }
+  },
+  
   methods: {
-    // 接收子组件发出的事件，并执行响应逻辑
     handleButtonClickReport(payload) {
       console.log('App.vue 收到报告:', payload);
       this.message = `✅ 收到来自子组件的报告！状态：${payload.status}`;
     },
-    logclick(event){
-      console.log(`接收到了点击事件,来自${event.currenttarget.tagName}`);
+    
+    // 模块四：事件修饰符的方法
+    logClick(event) {
+        console.log(`接收到点击事件，来自: ${event.currentTarget.id}`);
     },
-    logclickstopped(event){
-      console.log(`阻止了事件冒泡,来自${event.currenttarget.id}`);
-      event.stopPropagation();
-    }
-  }
-
+    logClickStopped(event) {
+        console.log(`阻止了事件冒泡，只接收到来自: ${event.currentTarget.id}`);
+        event.stopPropagation();
+    } 
+},
+}
 </script>
 
 <template>
