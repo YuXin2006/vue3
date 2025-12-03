@@ -31,6 +31,23 @@ export default {
       trimInput: '   ',      // 绑定到 .trim 演示 (注意初始值带空格)
     }
   },
+  computed: {
+    // 派生出未完成任务的数量
+    incompleteCount() {
+      // 过滤出 done: false 的项，返回其数量
+      console.log('💡 计算属性：正在重新计算未完成任务数...');
+      return this.shoppingList.filter(item => !item.done).length;
+    }
+  },
+  watch: {
+    // 侦听 searchQuery 数据的变化
+    searchQuery(newValue, oldValue) {
+      console.log(`💡 Watcher 侦听到变化：新值 "${newValue}", 旧值 "${oldValue}"`);
+      if (newValue.length > 15) {
+        console.warn(`💡 Watcher 警告: 搜索关键词长度超过 15 个字符!`);
+      }
+    }
+  },
   
   methods: {
     handleButtonClickReport(payload) {
@@ -68,8 +85,7 @@ export default {
     <!--列表渲染-->
     <div style="padding: 15px; background: #fffbe6; border-radius: 4px; margin-bottom: 30px;">
       <h2>三、列表渲染演示 (v-for)</h2>
-      <h4 style="margin-top:0;">购物清单 (共 {{ shoppingList.length }} 项)</h4>
-
+      <h4>购物清单 (共 {{ shoppingList.length }} 项, 未完成: <span style="color: red; font-weight: bold;">{{ incompleteCount }}</span>项)</h4>
       <ul style="list-style: none; padding: 0;">
         <li 
           v-for="(item, index) in shoppingList" 
@@ -140,7 +156,7 @@ export default {
     <div style="padding: 15px; background: #e6f7ff; border-radius: 4px; margin-bottom: 30px;">
       <h2>五、表单输入绑定 (v-model)</h2>
       <div style="margin-bottom: 15px;">
-        <h4>文本输入绑定:</h4>
+        <h4>文本输入绑定: (<span style="color: purple;">被 Watcher 实时侦听</span>)</h4>
         <input 
           v-model="searchQuery" 
           placeholder="输入内容，观察下方实时变化" 
@@ -168,21 +184,21 @@ export default {
     <hr style="margin: 20px 0; border-color: #eee;">
     <div style="padding: 15px; background: #fdf5e6; border-radius: 4px; margin-bottom: 30px;">
       <h2>六、v-model 修饰符演示 (.lazy, .number, .trim)</h2>
-
+      <!--v-model.lazy 失焦才更新-->
       <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #f0ad4e;">
         <h4>v-model.lazy (失焦才更新)</h4>
         <input v-model.lazy="lazyInput" placeholder="输入并观察">
         <p>数据状态：<code>{{ lazyInput }}</code></p>
         <p style="color: #f0ad4e;">**提示：** 只有当你**点击输入框外部**或**按回车**时，上方数据才会同步。</p>
       </div>
-
+      <!--v-model.number 转为数字类型-->
       <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #5bc0de;">
         <h4>v-model.number (转为数字类型)</h4>
         <input v-model.number="numberInput" type="number" placeholder="输入一个数字">
         <p>数据状态：<code>{{ numberInput }}</code></p>
         <p>数据类型：<code style="color: blue;">{{ typeof numberInput }}</code></p>
       </div>
-
+      <!--v-model.trim 去除首尾空格-->
       <div style="padding: 10px; border: 1px solid #5cb85c;">
         <h4>v-model.trim (去除首尾空格)</h4>
         <input v-model.trim="trimInput" placeholder="输入时前后加空格">
