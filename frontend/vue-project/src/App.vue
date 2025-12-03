@@ -31,7 +31,7 @@ export default {
     logclickstopped(event){
       console.log(`阻止了事件冒泡,来自${event.currenttarget.id}`);
       event.stopPropagation();
-    },
+    }
   }
 
 </script>
