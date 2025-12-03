@@ -24,7 +24,13 @@ export default {
     handleButtonClickReport(payload) {
       console.log('App.vue 收到报告:', payload);
       this.message = `✅ 收到来自子组件的报告！状态：${payload.status}`;
-    }
+    },
+    logclick(event){
+      console.log(`接收到了点击事件，来自${event.currenttarget.tagName}`);
+    },
+    logclickstopped(event){
+      console.log(`阻止了事件冒泡，来自${event.currenttarget.id}`);
+      event.stopPropagation();
   }
 }
 </script>
@@ -100,7 +106,26 @@ export default {
       <h2>二、全局 API 演示组件 (Application API)</h2>
       <GlobalApiDemo />
     </div>
-    
+
+
+    <hr style="margin: 20px 0; border-color: #eee;">
+    <div style="padding: 15px; background: #f0f8ff; border-radius: 4px; margin-bottom: 30px;">
+      <h2>四、事件修饰符演示 (.stop)</h2>
+      
+      <div id="parent" @click="logClick" style="border: 2px solid #333; padding: 20px;">
+        <h4>父级容器 (ID: parent)</h4>
+        <p>点击这里会触发父级容器的 logClick 事件。</p>
+        
+        <button id="child-1" @click="logClick" style="margin-right: 10px;">
+          点击我 (冒泡)
+        </button>
+        
+        <button id="child-2" @click.stop="logClickStopped" style="background: #ff5555; color: white;">
+          点击我 (.stop 阻止冒泡)
+        </button>
+      </div>
+
+    </div>
   </main>
 </template>
 
