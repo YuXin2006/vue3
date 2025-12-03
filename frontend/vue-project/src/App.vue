@@ -26,13 +26,14 @@ export default {
       this.message = `✅ 收到来自子组件的报告！状态：${payload.status}`;
     },
     logclick(event){
-      console.log(`接收到了点击事件，来自${event.currenttarget.tagName}`);
+      console.log(`接收到了点击事件,来自${event.currenttarget.tagName}`);
     },
     logclickstopped(event){
-      console.log(`阻止了事件冒泡，来自${event.currenttarget.id}`);
+      console.log(`阻止了事件冒泡,来自${event.currenttarget.id}`);
       event.stopPropagation();
+    },
   }
-}
+
 </script>
 
 <template>
