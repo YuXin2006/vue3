@@ -1,6 +1,7 @@
 <script>
 // 使用 Options API 结构来保持和你的代码风格一致
 
+import { onUpdated } from 'vue';
 import GlobalApiDemo from './components/GlobalApiDemo.vue'
 
 export default {
@@ -29,8 +30,11 @@ export default {
       lazyInput: '',         // 绑定到 .lazy 演示
       numberInput: 0,        // 绑定到 .number 演示
       trimInput: '   ',      // 绑定到 .trim 演示 (注意初始值带空格)
+      // 用于演示 updated 钩子
+      updateCount: 0, 
     }
   },
+  
   computed: {
     // 派生出未完成任务的数量
     incompleteCount() {
@@ -48,7 +52,19 @@ export default {
       }
     }
   },
-  
+  // ==================== 模块八：生命周期钩子 ====================
+  created() {
+    console.log('🚀 App.vue 已创建 (created 钩子)');
+  },
+  mounted() {
+    console.log('🚀 App.vue 已挂载到 DOM (mounted 钩子)');
+  },
+  updated(){
+    console.log(`🚀 App.vue 已更新 (updated 钩子),当前更新次数：${this.updateCount}`);
+  },
+
+
+
   methods: {
     handleButtonClickReport(payload) {
       console.log('App.vue 收到报告:', payload);
@@ -62,8 +78,11 @@ export default {
     logClickStopped(event) {
         console.log(`阻止了事件冒泡，只接收到来自: ${event.currentTarget.id}`);
         event.stopPropagation();
-    } 
-},
+    } ,
+    triggerUpdate(){
+      this.updateCount +=1;
+    }
+}
 }
 </script>
 
@@ -205,6 +224,16 @@ export default {
         <p>数据状态：<code>{{ JSON.stringify(trimInput) }}</code></p>
         <p style="color: green;">**提示：** 尝试输入 **[空格]test[空格]**，数据中不会包含空格。</p>
       </div>
+    </div>
+
+    <hr style="margin: 20px 0; border-color: #eee;">
+    <div style="padding: 15px; background: #e0fff0; border-radius: 4px; margin-bottom: 30px;">
+      <h2>八、生命周期钩子演示 (Lifecycle Hooks)</h2>
+      <p>当前更新次数: {{ updateCount }}</p>
+      <button @click="triggerUpdate" style="background: #e0fff0; border: 1px solid #00c853;">
+        点击我触发数据更新 (观察 Console 中的 updated 钩子)
+      </button>
+      <p style="color: #00c853; margin-top: 10px;">请打开浏览器控制台 (Console) 观察输出。</p>
     </div>
   </main>
 </template>
