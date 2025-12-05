@@ -62,6 +62,9 @@ export default {
   updated(){
     console.log(`🚀 App.vue 已更新 (updated 钩子),当前更新次数：${this.updateCount}`);
   },
+  unmounted() {
+    console.log('🚀 App.vue 已从 DOM 卸载 (unmounted 钩子)');
+  },
 
 
 
@@ -92,14 +95,12 @@ export default {
     <h1>Vue 学习成果演示</h1>
     
     <div style="margin-bottom: 30px; padding: 15px; background: #f9f9f9; border-radius: 4px;">
-      <h2>一、组件通信演示 (Props & Events)</h2>
+      <h2>一、组件通信演示(props->插槽) (Props & Events)</h2>
       <p style="color: #444; font-weight: bold;">{{ message }}</p>
-      
-      <BaseButton 
-        label="点击发送报告" 
-        color="#42b883" 
-        @button-clicked="handleButtonClickReport"
-      />
+
+      <BaseButton color="#42b883" @button-clicked="handleButtonClickReport">
+    ✨ 提交学习报告
+  </BaseButton>
     </div>
     <!--列表渲染-->
     <div style="padding: 15px; background: #fffbe6; border-radius: 4px; margin-bottom: 30px;">

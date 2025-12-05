@@ -1,32 +1,24 @@
-<script setup>
-// --- 1. 定义 Props (接收数据 - 父传子) ---
-const props = defineProps({
-  label: String, 
-  color: {
-    type: String,
-    required: true 
-  }
-})
-
-// --- 2. 定义 Events (发出信号 - 子传父) ---
-const emit = defineEmits(['button-clicked'])
-
-// 3. 事件处理函数
-const handleClick = () => {
-  // 触发 'button-clicked' 事件，并携带数据报告给父组件
-  emit('button-clicked', { 
-    id: 1, 
-    status: 'Button was clicked' 
-  })
-}
-</script>
-
+<!--我们不需要创建新的组件，我们可以 升级 你现有的 BaseButton 组件，让它不再依赖 props 来设置标签文本，而是使用插槽，使其更加灵活。-->
 <template>
   <button 
-    :style="{ backgroundColor: props.color, color: 'white', padding: '10px 20px', border: 'none', borderRadius: '4px', cursor: 'pointer' }"
+    :style="{ backgroundColor: color }" 
     @click="handleClick"
   >
-    {{ props.label || '默认按钮' }}
+    <slot>
+        [点击按钮]
+    </slot>
+    
   </button>
-  <p style="font-size: 12px; margin-top: 5px;">（颜色通过 Props 设定）</p>
 </template>
+
+<script>
+export default {
+    // ⚠️ 注意：由于我们不再使用 label props，理论上你可以将它从 props 列表中移除，
+    // 但为了兼容旧代码，我们暂时保留它。
+    props: {
+        // label: { type: String, required: true }, // 移除这一行是最佳实践
+        color: { type: String, default: '#333' }
+    },
+    // ... 其他 methods 保持不变
+}
+</script>
