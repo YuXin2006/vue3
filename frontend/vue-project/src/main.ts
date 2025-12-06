@@ -3,7 +3,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import BaseButton from './components/basebutton.vue' // 导入基础组件
-
+import router from './router/index' // 导入路由配置
 // 1. 创建应用实例
 const app = createApp(App)
 
@@ -24,8 +24,11 @@ app.provide('API_URL', 'https://api.my-study-app.com')
 
 // 5. app.config.globalProperties：挂载全局属性 (添加快速工具)
 // 挂载一个全局的日期格式化工具
-app.config.globalProperties.$formatDate = (date) => new Date(date).toLocaleDateString()
+app.config.globalProperties.$formatDate = (date: string | number | Date) => new Date(date).toLocaleDateString()
 
 
+// ✅ 关键修复：激活路由功能
+// 必须在 app.mount() 之前调用 app.use(router)
+app.use(router) // 使用路由插件
 // 6. 挂载应用
 app.mount('#app')
