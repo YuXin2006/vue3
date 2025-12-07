@@ -1,8 +1,9 @@
 <script>
 import Basebutton from '../components/basebutton.vue';
 import GlobalApiDemo from '../components/GlobalApiDemo.vue'
+import NamedCard from '../components/NamedCard.vue';
 export default {
- components: { GlobalApiDemo,Basebutton },
+ components: { GlobalApiDemo,Basebutton,NamedCard },
   
   data() {
     return {
@@ -235,5 +236,27 @@ export default {
       </button>
       <p style="color: #00c853; margin-top: 10px;">请打开浏览器控制台 (Console) 观察输出。</p>
     </div>
+    <hr style="margin: 30px 0;">
+    <div style="padding: 15px; background: #f0f0f0; border-radius: 4px;">
+      <h2>九、具名插槽演示 (Named Slots)</h2>
+      <NamedCard>
+        <template #header>
+          <h3 style="margin: 0; color: #42b983;">🌟 自定义卡片头部</h3>
+        </template>
+        
+        这是卡片的主要内容区域。你可以在这里放置任何你想要的内容。
+        
+        <template #footer>
+          <button style="background: #42b983; color: white; border: none; padding: 8px 12px; border-radius: 4px;">
+            点击我
+          </button>
+        </template>
+        
+        <template #sidebar>
+          <p style="margin: 0; font-size: 14px;">侧边栏内容，可以放置链接或广告。</p>
+        </template>
+      </NamedCard>
+    </div>
+    
   </main>
 </template>
