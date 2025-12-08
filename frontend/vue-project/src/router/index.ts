@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import IndexView from '@/views/IndexView.vue'
-
+import UserDetailView from '@/views/UserDetailView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -22,6 +22,11 @@ const router = createRouter({
       path:'/study-modules',
       name:'/study-modules',
       component: HomeView,
+    },
+    {
+      path:'/user/:id',
+      name:'user-detail',
+      component: UserDetailView,
     },
   ],
 })

@@ -236,6 +236,8 @@ export default {
       </button>
       <p style="color: #00c853; margin-top: 10px;">请打开浏览器控制台 (Console) 观察输出。</p>
     </div>
+
+
     <hr style="margin: 30px 0;">
     <div style="padding: 15px; background: #f0f0f0; border-radius: 4px;">
       <h2>九、具名插槽演示 (Named Slots)</h2>
@@ -257,6 +259,26 @@ export default {
         </template>
       </NamedCard>
     </div>
+
+    <hr style="margin: 30px 0;">
+
+<div style="padding: 15px; background: #fff; border-radius: 4px; margin-bottom: 30px;">
+  <h2>十二、路由参数演示 (Route Parameters)</h2>
+
+  <p>点击下方链接，访问同一个组件但带有不同的 URL 参数：</p>
+  
+  <ul style="list-style: none; padding-left: 0;">
+    <li>
+      <router-link to="/user/101" style="color: #35495e;">查看用户张三 (ID: 101)</router-link>
+    </li>
+    <li>
+      <router-link to="/user/202" style="color: #35495e;">查看用户李四 (ID: 202)</router-link>
+    </li>
+    <li>
+      <router-link to="/user/999" style="color: #35495e;">查看用户 (ID: 999)</router-link>
+    </li>
+  </ul>
+</div>
     
   </main>
 </template>
