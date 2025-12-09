@@ -2,8 +2,9 @@
 import Basebutton from '../components/basebutton.vue';
 import GlobalApiDemo from '../components/GlobalApiDemo.vue'
 import NamedCard from '../components/NamedCard.vue';
+import DataList from '../components/DataList.vue';
 export default {
- components: { GlobalApiDemo,Basebutton,NamedCard },
+ components: { GlobalApiDemo,Basebutton,NamedCard ,DataList},
   
   data() {
     return {
@@ -280,5 +281,27 @@ export default {
   </ul>
 </div>
     
+
+<hr style="margin: 30px 0;">
+<div style="padding: 15px; background: #fff; border-radius: 4px; margin-bottom: 30px;">
+  <h2>十三、作用域插槽演示 (Scoped Slots)</h2>
+  <DataList>
+    <template v-slot:default="{ item, index, isLast }"><!--父组件通过 v-slot 指令（或简写 #default）来接收这些插槽属性-->
+      <span style="font-weight: bold; margin-right: 10px;">
+        {{ index + 1 }}. {{ item.name }}
+      </span>
+      <span :style="{ color: item.price > 500 ? 'red' : 'green' }">
+        ¥ {{ item.price }}
+      </span>
+      <span v-if="isLast" style="color: blue; margin-left: 10px;">
+        (本月特价!)
+      </span>
+      <p style="font-size: 12px; color: #666; margin: 5px 0 0;">
+          [父组件使用子组件数据]
+      </p>
+    </template>
+    
+  </DataList>
+</div>
   </main>
 </template>
