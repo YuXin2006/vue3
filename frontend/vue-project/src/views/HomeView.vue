@@ -3,9 +3,15 @@ import Basebutton from '../components/basebutton.vue';
 import GlobalApiDemo from '../components/GlobalApiDemo.vue'
 import NamedCard from '../components/NamedCard.vue';
 import DataList from '../components/DataList.vue';
+import { defineAsyncComponent } from 'vue';
+const LargeChartAsync=defineAsyncComponent(() =>
+  import('../components/LargeChart.vue')
+);//javascript 的动态import语法
+
+
 export default {
- components: { GlobalApiDemo,Basebutton,NamedCard ,DataList},
-  
+ components: { GlobalApiDemo,Basebutton,NamedCard ,DataList,LargeChartAsync},
+
   data() {
     return {
       // 模块一：组件通信的数据
@@ -31,6 +37,8 @@ export default {
       trimInput: '   ',      // 绑定到 .trim 演示 (注意初始值带空格)
       // 用于演示 updated 钩子
       updateCount: 0, 
+      //模块十三：异步组件显示控制
+      showChart: false,
     }
   },
   
@@ -303,5 +311,20 @@ export default {
     
   </DataList>
 </div>
+
+
+<hr style="margin: 30px 0;">
+
+<div style="padding: 15px; background: #fff; border-radius: 4px; margin-bottom: 30px;">
+  <h2>十四、异步组件演示 (Asynchronous Components)</h2>
+  
+  <button @click="showChart = true" :disabled="showChart" 
+    style="background: #e91e63; color: white; padding: 10px 20px; border: none; cursor: pointer;">
+    {{ showChart ? '图表已加载' : '点击加载大型图表组件' }}
+  </button>
+  
+  <LargeChartAsync v-if="showChart" />
+</div>
+
   </main>
 </template>
