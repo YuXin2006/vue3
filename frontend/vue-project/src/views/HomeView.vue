@@ -326,5 +326,31 @@ export default {
   <LargeChartAsync v-if="showChart" />
 </div>
 
+
+<hr style="margin: 30px 0;">
+
+<div style="padding: 15px; background: #fff; border-radius: 4px; margin-bottom: 30px;">
+  <h2>十五、查询参数演示 (Query Parameters)</h2>
+  <p>使用 `router-link` 的 `to` 属性传递查询参数：</p>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>
+      <!--使用 `router-link` 的 `to` 属性传递查询参数-->
+      <router-link :to="{ path: '/products', query: { category: 'tech', sort: 'price' } }" style="color: #35495e;">
+        🖥️ 科技产品 (按价格排序)
+      </router-link>
+    </li>
+    <li>
+      <router-link :to="{ path: '/products', query: { category: 'home' } }" style="color: #35495e;">
+        🏠 家居产品 (默认排序)
+      </router-link>
+    </li>
+    <li>
+      <router-link to="/products" style="color: #35495e;">
+        🌐 查看所有产品
+      </router-link>
+    </li>
+  </ul>
+</div>
+
   </main>
 </template>
