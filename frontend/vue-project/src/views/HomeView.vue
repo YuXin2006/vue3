@@ -18,7 +18,7 @@ export default {
       message: '等待 BaseButton 的点击事件报告...',
       
       // 模块二：条件渲染的数据
-      isLoggedIn: true,    
+      isLoggedIn: false,    
       isVisible: true,
 
       // 模块三：列表渲染的数据
