@@ -20,10 +20,22 @@ export default {
       <router-link to="/study-modules" style="margin-right: 15px;">学习模块</router-link>
       <router-link to="/about">关于 (About)</router-link>
     </div>
+    <div style="padding: 15px; background: #eee; border-radius: 4px; margin-bottom: 20px;">
+      </div>
+<!--Vue Router 尝试将 default: HomeView 渲染到 所有未命名的 <router-view> 标签 中-->
+    <div style="display: flex; gap: 20px;">
+        
+        <div style="flex-basis: 80%; min-width: 0;">
+            <router-view></router-view> 
+        </div>
 
-    <router-view></router-view>
-
+        <div style="flex-basis: 20%; min-width: 0;">
+            <router-view name="sidebar"></router-view> 
+        </div>
+        
+    </div>
   </div>
+
 </template>
 <style scoped>
 h1 {

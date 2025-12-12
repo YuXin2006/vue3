@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import IndexView from '@/views/IndexView.vue'
 import UserDetailView from '@/views/UserDetailView.vue'
 import ProductListView from '@/components/ProductListView.vue'
+import SideNav from '../components/SideNav.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -33,8 +34,12 @@ const router = createRouter({
     {
       path: '/study-modules',
       name: '/study-modules',
-      component: HomeView,
-
+      components: {
+        // 映射到 App.vue 中未命名的 <router-view>
+        default: HomeView,
+        // 映射到 App.vue 中 name="sidebar" 的 <router-view>
+        sidebar:SideNav
+      },
     },
     {
       path: '/user/:id',
