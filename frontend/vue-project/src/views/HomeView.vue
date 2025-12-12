@@ -4,7 +4,9 @@ import GlobalApiDemo from '../components/GlobalApiDemo.vue'
 import NamedCard from '../components/NamedCard.vue';
 import DataList from '../components/DataList.vue';
 import { defineAsyncComponent } from 'vue';
-import { useUserStore } from '../stores/user'; // 导入 Store
+import { storeToRefs } from 'pinia'; 
+import { useUserStore } from '../stores/user'; 
+import { useCartStore } from '../stores/cart';
 const LargeChartAsync=defineAsyncComponent(() =>
   import('../components/LargeChart.vue')
 );//javascript 的动态import语法
@@ -44,9 +46,20 @@ export default {
   },
   setup() {
         const userStore = useUserStore(); // 访问 Store 实例
+        const cartStore =useCartStore();
+        // 关键：使用 storeToRefs 保持响应性
+        // 只需要解构 State 和 Getters(actions 不需要响应式)
+        const { userName, isAuthenticated } = storeToRefs(userStore);
+        const { totalItemsCount } = storeToRefs(cartStore);
         
         return {
-            userStore // 暴露给模板
+          //暴露store和action  
+          userStore ,
+          cartStore,
+            // 暴露解构后的响应式 State/Getter
+          userName,
+          isAuthenticated,
+          totalItemsCount,
         };
     },
   computed: {
@@ -147,8 +160,8 @@ export default {
         <p v-else style="color: red;">
           请先登录。(v-else 渲染)
         </p>
-        <button @click="IsLoggedIn = !IsLoggedIn">
-          切换 v-if 状态 (当前: {{ IsLoggedIn ? '已登录' : '未登录' }})
+        <button @click="isLoggedIn = !isLoggedIn">
+          切换 v-if 状态 (当前: {{ isLoggedIn ? '已登录' : '未登录' }})
         </button>
       </div>
       <div style="border: 1px solid #35495e; padding: 10px;">
@@ -388,6 +401,34 @@ export default {
       <p v-if="userStore.isAdmin" style="color: red; font-weight: bold; margin-top: 10px;">
           ⚠️ 恭喜！您是管理员！
       </p>
+  </div>
+</div>
+<hr style="margin: 30px 0;">
+
+<div style="padding: 15px; background: #fff; border-radius: 4px; margin-bottom: 30px; border: 1px solid #29b6f6;">
+  <h2>二十一、多 Store 协同演示 (User & Cart)</h2>
+
+  <p>当前用户：<strong>{{ userName }}</strong> (登录状态: {{ isAuthenticated ? '已登录' : '未登录' }})</p>
+  <p>
+      🛒 购物车总商品数 (Getter):
+      <strong style="color: #0288d1; font-size: 1.2em;">{{ totalItemsCount }} 件</strong>
+  </p>
+
+  <div style="margin-top: 15px;">
+      <button @click="cartStore.addItem('商品A')" 
+          style="background: #03a9f4; color: white; padding: 8px; margin-right: 10px;">
+          + 添加商品A
+      </button>
+
+      <button @click="cartStore.addItem('商品B')" 
+          style="background: #03a9f4; color: white; padding: 8px; margin-right: 10px;">
+          + 添加商品B
+      </button>
+      
+      <button @click="cartStore.clearCart()" :disabled="totalItemsCount === 0" 
+          style="background: #ff5722; color: white; padding: 8px;">
+          清空购物车
+      </button>
   </div>
 </div>
 
