@@ -4,6 +4,7 @@ import GlobalApiDemo from '../components/GlobalApiDemo.vue'
 import NamedCard from '../components/NamedCard.vue';
 import DataList from '../components/DataList.vue';
 import { defineAsyncComponent } from 'vue';
+import { useUserStore } from '../stores/user'; // 导入 Store
 const LargeChartAsync=defineAsyncComponent(() =>
   import('../components/LargeChart.vue')
 );//javascript 的动态import语法
@@ -41,7 +42,13 @@ export default {
       showChart: false,
     }
   },
-  
+  setup() {
+        const userStore = useUserStore(); // 访问 Store 实例
+        
+        return {
+            userStore // 暴露给模板
+        };
+    },
   computed: {
     // 派生出未完成任务的数量
     incompleteCount() {
@@ -350,6 +357,38 @@ export default {
       </router-link>
     </li>
   </ul>
+</div>
+
+
+<hr style="margin: 30px 0;">
+
+<div style="padding: 15px; background: #fff; border-radius: 4px; margin-bottom: 30px; border: 1px solid #00c853;">
+  <h2>二十、Pinia 状态管理演示</h2>
+  
+  <p>登录状态 (Getter):<strong style="color: #00c853;">{{ userStore.welcomeMessage }}</strong></p>
+  
+  <p>用户 ID (State):{{ userStore.userId }}</p>
+
+  <div style="margin-top: 15px;">
+      <button v-if="!userStore.isAuthenticated" @click="userStore.login(1001, '张三')" 
+          style="background: #4caf50; color: white; padding: 10px; margin-right: 10px;">
+          点击登录 (张三)
+      </button>
+
+      <button v-if="!userStore.isAuthenticated" @click="userStore.login(9999, '管理员')" 
+          style="background: #ff9800; color: white; padding: 10px; margin-right: 10px;">
+          点击登录 (管理员)
+      </button>
+      
+      <button v-if="userStore.isAuthenticated" @click="userStore.logout()" 
+          style="background: #e53935; color: white; padding: 10px;">
+          点击登出
+      </button>
+      
+      <p v-if="userStore.isAdmin" style="color: red; font-weight: bold; margin-top: 10px;">
+          ⚠️ 恭喜！您是管理员！
+      </p>
+  </div>
 </div>
 
   </main>

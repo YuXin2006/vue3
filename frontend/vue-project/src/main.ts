@@ -4,8 +4,11 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import BaseButton from './components/basebutton.vue' // 导入基础组件
 import router from './router/index' // 导入路由配置
+
+import { createPinia } from 'pinia'
 // 1. 创建应用实例
 const app = createApp(App)
+const pinia = createPinia()
 
 // --- 注册全局资源 (Application API) ---
 
@@ -30,5 +33,6 @@ app.config.globalProperties.$formatDate = (date: string | number | Date) => new 
 // ✅ 关键修复：激活路由功能
 // 必须在 app.mount() 之前调用 app.use(router)
 app.use(router) // 使用路由插件
+app.use(pinia) // 使用 Pinia 状态管理
 // 6. 挂载应用
 app.mount('#app')
