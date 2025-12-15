@@ -7,13 +7,15 @@ import { defineAsyncComponent } from 'vue';
 import { storeToRefs } from 'pinia'; 
 import { useUserStore } from '../stores/user'; 
 import { useCartStore } from '../stores/cart';
+import RefReactiveDemo from '../components/RefReactiveDemo.vue'; 
+import{useMouseTracker}from'../composables/useMouseTracker.js';
 const LargeChartAsync=defineAsyncComponent(() =>
   import('../components/LargeChart.vue')
 );//javascript 的动态import语法
 
 
 export default {
- components: { GlobalApiDemo,Basebutton,NamedCard ,DataList,LargeChartAsync},
+ components: { GlobalApiDemo,Basebutton,NamedCard ,DataList,LargeChartAsync,RefReactiveDemo},
 
   data() {
     return {
@@ -51,7 +53,7 @@ export default {
         // 只需要解构 State 和 Getters(actions 不需要响应式)
         const { userName, isAuthenticated } = storeToRefs(userStore);
         const { totalItemsCount } = storeToRefs(cartStore);
-        
+        const{x,y}=useMouseTracker();
         return {
           //暴露store和action  
           userStore ,
@@ -60,6 +62,9 @@ export default {
           userName,
           isAuthenticated,
           totalItemsCount,
+          //暴露composable返回的状态
+          mouseX:x,
+          mouseY:y
         };
     },
   computed: {
@@ -430,6 +435,21 @@ export default {
           清空购物车
       </button>
   </div>
+</div>
+
+<hr style="margin: 30px 0;">
+
+<div style="padding: 15px; background: #fff; border-radius: 4px; margin-bottom: 30px;">
+    <h2>二十三、组合式 API 基础演示</h2>
+    <RefReactiveDemo />
+</div>
+
+<hr style="margin: 30px 0;">
+
+<div style="padding: 15px; background: #fff; border-radius: 4px; border: 1px solid #795548;">
+    <h2>二十三、可复用 Composable 演示</h2>
+    <p>请在页面上移动鼠标：</p>
+    <p>鼠标位置：X: <strong style="color: #009688;">{{ mouseX }}</strong>, Y: <strong style="color: #009688;">{{ mouseY }}</strong></p>
 </div>
 
   </main>
