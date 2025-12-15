@@ -1,7 +1,6 @@
 // src/stores/user.js
-
 import { defineStore } from 'pinia';
-
+import { useCartStore } from './cart';
 // 定义并导出一个 Store
 export const useUserStore = defineStore('user', { // 'user' 是唯一的 ID
 
@@ -27,12 +26,18 @@ export const useUserStore = defineStore('user', { // 'user' 是唯一的 ID
     // 3. Actions (操作) - 类似于组件的 methods
     actions: {
         // 登录操作
-        login(id, name) {
+       login(id, name) {
             // 直接修改 State
             this.userId = id;
             this.userName = name;
             this.isAuthenticated = true;
             console.log(`${name} 已成功登录！`);
+
+            const cartStore = useCartStore();
+            if(cartStore.totalItemsCount > 0) {
+                cartStore.clearCart(); // 调用 CartStore 的清空方法
+                console.log('--- 购物车已根据登录事件清空 ---');
+            }
         },
         // 登出操作 (可以包含异步逻辑)
         async logout() {
